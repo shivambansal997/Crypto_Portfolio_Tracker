@@ -28,6 +28,9 @@ INSTALLED_APPS = [
     'api',
     'api.user',
     'api.crypto',
+    # Rest Framework
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -38,6 +41,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'Crypto_Portfolio_Tracker.urls'
@@ -64,13 +68,14 @@ WSGI_APPLICATION = 'Crypto_Portfolio_Tracker.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'de3d6jkd7kcehi',
-        'USER': 'jtlnleqwwdyfhw',
-        'PASSWORD': '2cfb2d5c586e7fb1a766fcf855b8de43d44eecb73f2d914b48320a7fdbdaa3c4',
-        'HOST': 'ec2-23-23-128-222.compute-1.amazonaws.com',
+        'NAME': 'Crypto_Portfolio_Tracker',
+        'USER': 'postgres',
+        'PASSWORD': '1234567890',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
@@ -118,3 +123,32 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        # 'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+        # 'rest_framework.authentication.TokenAuthentication'
+        # 'oauth2_provider.contrib.rest_framework.OAuth2Authentication',  # django-oauth-toolkit >= 1.0.0
+        # 'rest_framework_social_oauth2.authentication.SocialAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication'
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 3
+}
+
+# Heroku Database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'de3d6jkd7kcehi',
+#         'USER': 'jtlnleqwwdyfhw',
+#         'PASSWORD': '2cfb2d5c586e7fb1a766fcf855b8de43d44eecb73f2d914b48320a7fdbdaa3c4',
+#         'HOST': 'ec2-23-23-128-222.compute-1.amazonaws.com',
+#         'PORT': '5432',
+#     }
+# }

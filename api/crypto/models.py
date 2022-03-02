@@ -10,15 +10,15 @@ class Transaction(models.Model):
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='transaction_set', null=True)
     crypto = models.ForeignKey('crypto.Crypto', on_delete=models.CASCADE, related_name='transaction_set', null=True)
     type = models.CharField(max_length=4)
-    price_usd = models.PositiveBigIntegerField(default=0, null=True, editable=False)
-    quantity = models.PositiveBigIntegerField(default=0, null=True, editable=False)
+    price_usd = models.PositiveBigIntegerField(default=0, null=True)
+    quantity = models.PositiveBigIntegerField(default=0, null=True)
+    amount = models.PositiveBigIntegerField(default=0, null=True)
     platform = models.ForeignKey('crypto.Platform', on_delete=models.CASCADE, related_name='transaction_set', null=True)
     description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        unique_together = ('user', 'crypto', 'platform')
         ordering = ('-created_at',)
 
 
@@ -29,13 +29,17 @@ class Crypto(models.Model):
     icon = models.ImageField(upload_to='icon/crypto', blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def __str__(self):
+        return self.crypto_name
+
 
 class Holding(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='holding_set', null=True)
     crypto = models.ForeignKey('crypto.Crypto', on_delete=models.CASCADE, related_name='holding_set', null=True)
-    quantity = models.PositiveBigIntegerField(default=0, null=True, editable=False)
-    avg_price = models.PositiveBigIntegerField(default=0, null=True, editable=False)
+    quantity = models.PositiveBigIntegerField(default=0, null=True)
+    avg_price = models.PositiveBigIntegerField(default=0, null=True)
+    amount = models.PositiveBigIntegerField(default=0, null=True)
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     update_at = models.DateTimeField(auto_now=True)
 
@@ -63,3 +67,6 @@ class Platform(models.Model):
 
     class Meta:
         ordering = ('-created_at',)
+
+    def __str__(self):
+        return self.name

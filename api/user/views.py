@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import login as auth_login, logout
@@ -34,8 +35,17 @@ class UserViewSet(viewsets.ModelViewSet):
             return [permission() for permission in self.permission_classes]
 
 
+def auth_user(request):
+    context = {
+        'first_name': request.user.first_name,
+        'username': request.user.username
+    }
+    return JsonResponse(context)
+
+
 @csrf_exempt
 def login(request):
+    print('abd')
     if not request.method == 'POST':
         return JsonResponse({'error': 'Send a post request with valid parameter only'})
 

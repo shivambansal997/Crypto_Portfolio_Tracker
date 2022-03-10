@@ -1,0 +1,11 @@
+select option {
+    border-radius: 10px;
+    margin-bottom: 10px;
+    height: 45px;
+}
+
+select {
+    border-radius: 10px;
+    margin-bottom: 10px;
+    height: 45px;
+}

@@ -1,9 +1,11 @@
 import Base from '../Components/Base'
 
-export default function Transactions() {
+const Transactions = () => {
     return (
         <Base>
-            <div>Transaction Page</div>
+            <h2>Transaction Page</h2>
         </Base>
     )
 }
+
+export default Transactions

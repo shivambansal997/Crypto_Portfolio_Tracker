@@ -3,7 +3,7 @@ import Base from '../Components/Base'
 export default function Watchlist() {
     return (
         <Base>
-            <div>Watchlist Page</div>
+            <h2>Watchlist Page</h2>
         </Base>
     )
 }

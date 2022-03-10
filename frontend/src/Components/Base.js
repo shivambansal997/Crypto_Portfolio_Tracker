@@ -1,7 +1,8 @@
-export default function Base({children}) {
+const Base = ({children}) => {
     return (
         <div>
-            <div className='container-fluid'>{children}</div>
+            <div className='container mx-auto'>{children}</div>
         </div>
     )
 }
+export default Base

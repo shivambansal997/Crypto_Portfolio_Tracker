@@ -150,7 +150,7 @@ CORS_ORIGIN_WHITELIST = [
 CORS_ALLOW_CREDENTIALS = True
 
 # Cookies
-SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
+# SESSION_ENGINE = 'django.contrib.sessions.backends.cache'
 SESSION_COOKIE_AGE = 63072000
 SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False

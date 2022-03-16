@@ -24,16 +24,13 @@ class TransactionView(ListAPIView):
         quantity = request.data['quantity']
         platform = Platform.objects.get(id=request.data['platform_id'])
         description = request.data['description']
-        amount = int(price_usd) * int(quantity)
+        amount = float(price_usd) * float(quantity)
 
-        # obj, holding = Holding.objects.get_or_create(user=user, crypto=crypto)
-        # obj.quantity = quantity1 = F('quantity') + int(quantity)
-        # print(quantity1)
-        # print(amount / obj.quantity)
-        # print(amount)
-        # obj.avg_price = amount / obj.quantity
-        # obj.amount = obj.quantity * obj.avg_price
-        # obj.save()
+        obj, holding = Holding.objects.get_or_create(user=user, crypto=crypto)
+        obj.quantity = F('quantity') + float(quantity)
+        obj.total_amount = F('total_amount') + amount
+        obj.avg_price = obj.total_amount / obj.quantity
+        obj.save()
 
         Transaction.objects.create(
             user=user,

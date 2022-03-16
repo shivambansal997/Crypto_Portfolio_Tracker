@@ -90,9 +90,9 @@ const NavBar = () => {
                         {/*authentication*/}
                         {
                             isAuth ?
-                                <div>
-                                    <span>{first_name}</span>
-                                    <button onClick={logout}>Logout</button>
+                                <div className='flex'>
+                                    <div className='relative'>{first_name}</div>
+                                    <div className='' onClick={logout}>Logout</div>
                                 </div>
                                 :
                                 <div className='hidden lg:flex cursor-pointer' onClick={openLoginModal}>
@@ -128,6 +128,7 @@ const NavBar = () => {
                                              else return 'block py-1'
                                          }}
                                 >Watchlist</NavLink>
+                                {/*mobile authentication*/}
                                 {
                                     isAuth ?
                                         <div>

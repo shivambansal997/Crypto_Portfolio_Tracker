@@ -45,7 +45,6 @@ def auth_user(request):
 
 @csrf_exempt
 def login(request):
-    print('abd')
     if not request.method == 'POST':
         return JsonResponse({'error': 'Send a post request with valid parameter only'})
 

@@ -12,7 +12,7 @@ class PlatformAdmin(admin.ModelAdmin):
 
 
 class HoldingAdmin(admin.ModelAdmin):
-    list_display = ('user', 'crypto', 'quantity', 'avg_price',)
+    list_display = ('user', 'crypto', 'quantity', 'avg_price', 'total_amount')
 
 
 class TransactionAdmin(admin.ModelAdmin):

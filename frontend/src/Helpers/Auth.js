@@ -1,4 +1,20 @@
-import {loginURL, logoutURL} from '../backend'
+import {loginURL, logoutURL, userURL} from '../backend'
+
+export const singup = (user) => {
+    const formData = new FormData()
+
+    for (const name in user) {
+        formData.append(name, user[name])
+    }
+
+    return fetch(userURL, {
+        method: 'POST',
+        body: formData,
+    })
+        .then(response => response.json())
+        .catch(error => console.log('error', error))
+
+}
 
 
 export const Login = (user) => {
@@ -7,7 +23,6 @@ export const Login = (user) => {
     for (const name in user) {
         formData.append(name, user[name])
     }
-    console.log(formData)
 
     return fetch(loginURL, {
         method: 'POST',

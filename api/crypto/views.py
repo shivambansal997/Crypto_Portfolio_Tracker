@@ -1,17 +1,18 @@
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.db.models import F
 from django.http import JsonResponse, Http404
+from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.generics import ListAPIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from .models import Watchlist, Crypto, Transaction, Platform, Holding
-from .serializers import WatchlistSerializer, TransactionSerializer
+from .serializers import WatchlistSerializer, TransactionSerializer, CryptoSerializer, HoldingSerializer
 from .utils import Pagination
 
 
 class TransactionView(ListAPIView):
-    permission_classes = [IsAuthenticated]
     pagination_class = Pagination
     serializer_class = TransactionSerializer
+    permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
         return Transaction.objects.filter(user=self.request.user)
@@ -91,3 +92,21 @@ class WatchlistView(ListAPIView):
             return JsonResponse({'Success': 'Successfully deleted from watchlist'}, status=200)
         except ObjectDoesNotExist:
             raise Http404
+
+
+class CryptoView(ListAPIView):
+    serializer_class = CryptoSerializer
+    pagination_class = Pagination
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = Crypto.objects.all()
+    search_fields = ['^crypto_name', '^id', '=symbol']
+    filter_backends = [SearchFilter, OrderingFilter]
+
+
+class HoldingView(ListAPIView):
+    serializer_class = HoldingSerializer
+    pagination_class = Pagination
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Holding.objects.filter(user=self.request.user)

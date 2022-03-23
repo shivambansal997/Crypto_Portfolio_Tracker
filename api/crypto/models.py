@@ -23,11 +23,9 @@ class Transaction(models.Model):
 
 
 class Crypto(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    crypto_name = models.CharField(max_length=50)
-    abbreviation = models.CharField(max_length=20)
-    icon = models.ImageField(upload_to='icon/crypto', blank=True, null=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    id = models.CharField(primary_key=True, max_length=250)
+    crypto_name = models.CharField(max_length=250)
+    symbol = models.CharField(max_length=250)
 
     def __str__(self):
         return self.crypto_name

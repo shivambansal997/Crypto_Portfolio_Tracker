@@ -1,49 +1,127 @@
-import {inputBoxStyle, buttonStyle, inputLabelStyle, checkboxStyle, checkboxLabelStyle} from '../Style/Style'
-import {useContext} from 'react'
+import {useContext, useState} from 'react'
 import {ModalContext} from '../Context/ModalState'
 import LoginForm from './LoginForm'
 import InputBox from './Buttons/InputBox'
 import SubmitButton from './Buttons/SubmitButton'
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank'
 import ModalHeading from './Modals/ModalHeading'
+import {singup} from '../Helpers/Auth'
 
 const SignupForm = () => {
     const {setModalContent} = useContext(ModalContext)
 
-    return (
-        <form action='' className='' method='post'>
+    const [values, setValues] = useState({
+        first_name: 'Vaishali',
+        last_name: 'Bansal',
+        email: 'Vaishalibansal071@gmail.com',
+        username: 'Vaishalibansal071',
+        password: 'qwerty',
+        error: '',
+        success: false,
+    })
 
-            <ModalHeading>Create account</ModalHeading>
+    const {first_name, last_name, email, password, username, error} = values
 
-            <div className='grid grid-cols-2 gap-[32px]'>
-                <InputBox lable='First Name' placeholder='First Name' type='text' id='first_name'/>
-                <InputBox lable='Last Name' placeholder='Last Name' type='text' id='last_name'/>
+    const handleErrorMessage = () => {
+        return (
+            <div className='bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"'
+                 style={{display: error ? '' : 'none'}}
+            >
+                Check all field again
             </div>
+        )
+    }
 
-            <InputBox lable='E-mail' placeholder='Email address' type='text' id='email'/>
 
-            <InputBox lable='Password' placeholder='Password' type='password' id='password'/>
+    const handleChange = name => (event) => {
+        setValues({
+                ...values,
+                error: false,
+                [name]: event.target.value,
+            },
+        )
+    }
 
-            <div className='ml-[8px] flex items-center'>
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+
+        singup({first_name, last_name, email, password, username})
+            .then(data => {
+                console.log('DATA', data)
+                if (data.email === email) {
+                    setValues({
+                        ...values,
+                        first_name: '',
+                        last_name: '',
+                        email: '',
+                        username: '',
+                        password: '',
+                        error: false,
+                        success: true,
+                    })
+                } else {
+                    setValues({
+                        ...values,
+                        error: true,
+                        success: false,
+                    })
+                }
+            })
+            .catch(error => console.log(error))
+    }
+
+
+    const SignupForm = () => {
+        return (
+            <form action='' className='' method='post'>
+                {handleErrorMessage()}
+                <ModalHeading>Create account</ModalHeading>
+
+                <div className='grid grid-cols-2 gap-[32px]'>
+                    <InputBox lable='First Name' placeholder='First Name' type='text' id='first_name'
+                              onChange={handleChange('first_name')}
+                              value={first_name}/>
+                    <InputBox lable='Last Name' placeholder='Last Name' type='text' id='last_name'
+                              onChange={handleChange('last_name')}
+                              value={last_name}/>
+                </div>
+
+                <InputBox lable='E-mail' placeholder='Email address' type='text' id='email'
+                          onChange={handleChange('email')}
+                          value={email}/>
+                <InputBox lable='Username' placeholder='Username' type='text' id='username'
+                          onChange={handleChange('username')}
+                          value={username}/>
+
+                <InputBox lable='Password' placeholder='Password' type='password' id='password'
+                          onChange={handleChange('password')}
+                          value={password}/>
+
+                <div className='ml-[8px] flex items-center'>
                 <span>
-                    <CheckBoxOutlineBlankIcon fontSize='medium'/>
+                    <input type='checkbox'/>
                 </span>
-                <span className='ml-[8px]'>
+                    <span className='ml-[8px]'>
                     I agree with all the <b>Terms</b>  & <b>Privacy Policy</b>
                 </span>
-            </div>
+                </div>
 
-            <SubmitButton>Create account</SubmitButton>
+                <SubmitButton onClick={handleSubmit}>Create account</SubmitButton>
 
-            <div>
-                Already have an account?
-                <span className='text-[#15825E] font-bold cursor-pointer'
-                      onClick={() => setModalContent(<LoginForm/>)}>
+                <div>
+                    Already have an account?
+                    <span className='text-[#15825E] font-bold cursor-pointer'
+                          onClick={() => setModalContent(<LoginForm/>)}>
                  Log in
                 </span>
-            </div>
+                </div>
 
-        </form>
+            </form>
+        )
+    }
+
+    return (
+        SignupForm()
     )
 }
 

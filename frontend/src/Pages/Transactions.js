@@ -9,6 +9,7 @@ import Tooltip from '@mui/material/Tooltip'
 import DeleteIcon from '@mui/icons-material/Delete'
 import DeleteFeed from '../Helpers/DeleteFeed'
 import Table, {TableRow} from '../Components/Table'
+import LocalDate from '../Helpers/LocalDate'
 
 const Transactions = () => {
     const {authUser, authUser: {isAuth}} = useContext(UserContext)
@@ -26,7 +27,6 @@ const Transactions = () => {
             .then(response => response.json())
             .then(response => {
                 setTransactions([
-                    ...transactions,
                     ...response.results,
                 ])
             })
@@ -65,9 +65,11 @@ const Transactions = () => {
                                 <span className='ml-2'>{transaction.type}</span>
                             </td>
                             <td className='text-right'>{transaction.crypto_name}</td>
-                            <td className='text-right'>{transaction.created_at}</td>
-                            <td className='text-right'>{transaction.quantity}</td>
-                            <td className='text-right'>${transaction.price_usd}</td>
+                            <td className='text-right'> {LocalDate(transaction.created_at)}</td>
+                            <td className='text-right'
+                                title={transaction.quantity}> {parseFloat(transaction.quantity).toFixed(3)}</td>
+                            <td className='text-right'
+                                title={transaction.price_usd}>${parseFloat(transaction.price_usd).toFixed(3)}</td>
                             <td className='text-right'>{transaction.platform}</td>
                             <td className='text-right'>
                                 <Tooltip title={transaction.description}>

@@ -14,6 +14,7 @@ const InputBox = (props) => {
                     placeholder={props.placeholder}
                     name={props.id}
                     onChange={props.onChange}
+                    value={props.value}
                 />
             </div>
 

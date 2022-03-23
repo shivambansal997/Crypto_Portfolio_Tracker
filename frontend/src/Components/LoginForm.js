@@ -5,7 +5,6 @@ import SignupForm from './SingupForm'
 import InputBox from './Buttons/InputBox'
 import SubmitButton from './Buttons/SubmitButton'
 import ModalHeading from './Modals/ModalHeading'
-import userState from '../Context/UserState'
 import {Login} from '../Helpers/Auth'
 
 

@@ -1,10 +1,13 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
+
+# from django.contrib.auth.admin import UserAdmin
+# from import_export.admin import ImportExportModelAdmin
+
 from .models import Platform, Crypto, Transaction, Holding, Watchlist
 
 
 class CryptoAdmin(admin.ModelAdmin):
-    list_display = ('crypto_name', 'abbreviation', 'icon',)
+    list_display = ('id', 'crypto_name', 'symbol',)
 
 
 class PlatformAdmin(admin.ModelAdmin):

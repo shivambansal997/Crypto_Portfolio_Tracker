@@ -1,4 +1,5 @@
 from rest_framework import serializers
+
 from .models import Watchlist, Holding, Transaction, Crypto
 
 crypto_name = serializers.SerializerMethodField('get_crypto_name')
@@ -36,6 +37,7 @@ class WatchlistSerializer(serializers.ModelSerializer):
     class Meta:
         model = Watchlist
         fields = [
+            'id',
             'crypto_id',
             'crypto_name',
             'symbol',

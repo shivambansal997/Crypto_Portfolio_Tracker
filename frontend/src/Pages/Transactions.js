@@ -1,4 +1,3 @@
-import Base from '../Components/Base'
 import {useContext, useEffect, useState} from 'react'
 import {UserContext} from '../Context/UserState'
 import {transactionURL} from '../backend'
@@ -29,6 +28,7 @@ const Transactions = () => {
                 setTransactions([
                     ...response.results,
                 ])
+                console.log(transactions)
             })
             .catch(error => console.log(error))
     }
@@ -79,6 +79,7 @@ const Transactions = () => {
                             <td className='text-right'>
                                 <button onClick={() => DeleteFeed({
                                     'id': transaction.id,
+                                    'url': transactionURL,
                                     'state': transactions,
                                     'setState': setTransactions,
                                 })}>

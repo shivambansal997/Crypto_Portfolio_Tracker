@@ -1,13 +1,12 @@
-import {transactionURL} from '../backend'
 import {getCookie} from './Auth'
 
 const DeleteFeed = (props) => {
-    const {id, state, setState} = props
+    const {id, url, state, setState} = props
 
     const formData = new FormData()
     formData.append('id', props.id)
 
-    fetch(transactionURL, {
+    fetch(url, {
         method: 'DELETE',
         body: formData,
         credentials: 'include',

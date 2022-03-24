@@ -6,13 +6,14 @@ import Table, {TableRow} from '../Components/Table'
 import Base from '../Components/Base'
 import SearchBox from '../Components/SearchBox'
 import {getCookie} from '../Helpers/Auth'
-import DeleteFeed from '../Helpers/DeleteFeed'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 const Watchlist = () => {
     const {authUser, authUser: {isAuth}} = useContext(UserContext)
 
-    const [livePrice, setLivePrice] = useState([])
+    const [livePrices, setLivePrices] = useState([])
+
+    const [watchlist, setWatchlist] = useState([])
 
     const [pageNumber, setPageNumber] = useState(1)
 
@@ -37,8 +38,8 @@ const Watchlist = () => {
             .then(response => response.json())
             .then(response => {
                 console.log('response sdfjds', response)
-                setLivePrice([
-                    ...livePrice,
+                setLivePrices([
+                    ...livePrices,
                     ...response,
                 ])
             })
@@ -56,8 +57,12 @@ const Watchlist = () => {
                 console.log(response)
                 console.log(response.results[0].crypto_id)
                 const arr = []
-                for (let i = 0; i < response.results.length; i++)
+                for (let i = 0; i < response.results.length; i++) {
                     arr.push(response.results[i].crypto_id)
+                }
+                setWatchlist([
+                    ...response.results,
+                ])
 
                 const api = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${arr.toString()}&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage=24%2C7d`
                 return fetch(api, {
@@ -67,11 +72,42 @@ const Watchlist = () => {
             .then(response => response.json())
             .then(response => {
                 console.log('live price', response)
-                setLivePrice([
+                console.log('watchlist', watchlist)
+                setLivePrices([
                     ...response,
+
                 ])
+
             })
             .catch(error => console.log(error))
+    }
+
+    const handleDeleteWatchlist = (id) => {
+        const obj = watchlist.find(o => o.crypto_id === id)
+
+        id = obj.id
+        const crypto_id = obj.crypto_id
+
+        const formData = new FormData()
+        formData.append('id', id)
+
+        fetch(watchlistURL, {
+            method: 'DELETE',
+            body: formData,
+            credentials: 'include',
+            headers: {
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+        })
+            .then(response => {
+                const newLivePrices = livePrices.filter(livePrices => livePrices.id !== crypto_id)
+                setLivePrices(newLivePrices)
+                return response.json()
+            })
+            .then(response => {
+                console.log(response)
+            })
+            .catch(onerror => console.log(onerror))
     }
 
     useEffect(() => {
@@ -95,7 +131,7 @@ const Watchlist = () => {
         <Base>
             <SearchBox onSubmit={handlePostWatchlist}/>
             <Table headings={headings} label='Watchlist'>
-                {livePrice.map((livePrice, index) => {
+                {livePrices.map((livePrice, index) => {
                     return (
                         <TableRow key={index}>
                             <td>
@@ -132,11 +168,7 @@ const Watchlist = () => {
 
                             <td className='text-right'>
                                 <button
-                                    //     onClick={() => DeleteFeed({
-                                    //     'id': transaction.id,
-                                    //     'state': transactions,
-                                    //     'setState': setTransactions,
-                                    // })}
+                                    onClick={() => handleDeleteWatchlist(livePrice.id)}
                                 >
                                     <DeleteIcon/>
                                 </button>

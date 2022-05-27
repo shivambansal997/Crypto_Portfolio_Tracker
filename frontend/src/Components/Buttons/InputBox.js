@@ -3,7 +3,7 @@ const InputBox = (props) => {
         <div className='mb-[16px]'>
 
             <div className='mb-[8px]'>
-                <label htmlFor={props.id} className='text-[16px] font-bold ml-[8px]'>{props.lable}</label>
+                <label htmlFor={props.id} className='text-[16px] font-bold ml-[8px]'>{props.label}</label>
             </div>
 
             <div>
@@ -15,6 +15,7 @@ const InputBox = (props) => {
                     name={props.id}
                     onChange={props.onChange}
                     value={props.value}
+                    autoComplete='off'
                 />
             </div>
 

@@ -78,22 +78,22 @@ const SignupForm = () => {
                 <ModalHeading>Create account</ModalHeading>
 
                 <div className='grid grid-cols-2 gap-[32px]'>
-                    <InputBox lable='First Name' placeholder='First Name' type='text' id='first_name'
+                    <InputBox label='First Name' placeholder='First Name' type='text' id='first_name'
                               onChange={handleChange('first_name')}
                               value={first_name}/>
-                    <InputBox lable='Last Name' placeholder='Last Name' type='text' id='last_name'
+                    <InputBox label='Last Name' placeholder='Last Name' type='text' id='last_name'
                               onChange={handleChange('last_name')}
                               value={last_name}/>
                 </div>
 
-                <InputBox lable='E-mail' placeholder='Email address' type='text' id='email'
+                <InputBox label='E-mail' placeholder='Email address' type='text' id='email'
                           onChange={handleChange('email')}
                           value={email}/>
-                <InputBox lable='Username' placeholder='Username' type='text' id='username'
+                <InputBox label='Username' placeholder='Username' type='text' id='username'
                           onChange={handleChange('username')}
                           value={username}/>
 
-                <InputBox lable='Password' placeholder='Password' type='password' id='password'
+                <InputBox label='Password' placeholder='Password' type='password' id='password'
                           onChange={handleChange('password')}
                           value={password}/>
 

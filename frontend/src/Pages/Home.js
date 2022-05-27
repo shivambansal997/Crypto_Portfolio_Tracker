@@ -5,7 +5,7 @@ import Table, {TableRow} from '../Components/Table'
 import {holdingURL} from '../backend'
 import NumberFormat, {numberWithCommas} from '../Helpers/NumberFormat'
 import Base from '../Components/Base'
-
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 
 export default function Home() {
     const {setModal, setModalContent} = useContext(ModalContext)
@@ -48,7 +48,6 @@ export default function Home() {
             .then(response => {
                 console.log('live price', response)
                 setLivePrice([
-                    ...livePrice,
                     ...response,
                 ])
             })
@@ -73,11 +72,20 @@ export default function Home() {
         )
     }
 
+    const TableButton = () => {
+        return (
+            <button
+                className='w-[150px] h-[35px] rounded-[10px] bg-[#007BFF] hover:bg-[#0F68C6] text-white px-4'
+                onClick={openTransactionModal}>
+                <AddCircleIcon className='align-bottom' fontSize='small'/>
+                <span>Transaction</span>
+            </button>
+        )
+    }
 
     return (
         <Base>
-            <div className='mt-6 mx-24'>My Portfolio</div>
-            <Table headings={headings} label='My Portfolio'>
+            <Table headings={headings} label='My Portfolio' button={TableButton}>
                 {livePrice.map((livePrice, index) => {
                     return (
                         <TableRow key={index}>

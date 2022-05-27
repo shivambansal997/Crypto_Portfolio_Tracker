@@ -15,6 +15,7 @@ class Transaction(models.Model):
     amount = models.DecimalField(default=0, null=True, max_digits=20, decimal_places=10, editable=False)
     platform = models.ForeignKey('crypto.Platform', on_delete=models.CASCADE, related_name='transaction_set', null=True)
     description = models.TextField(blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now=True)
 

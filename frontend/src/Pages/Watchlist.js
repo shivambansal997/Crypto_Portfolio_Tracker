@@ -17,6 +17,7 @@ const Watchlist = () => {
 
     const [pageNumber, setPageNumber] = useState(1)
 
+
     const handlePostWatchlist = (id) => {
         fetch(watchlistURL, {
             method: 'POST',
@@ -126,10 +127,11 @@ const Watchlist = () => {
         )
     }
 
-
     return (
         <Base>
-            <SearchBox onSubmit={handlePostWatchlist}/>
+            <div className='mx-16 w-[500px]'>
+                <SearchBox onSubmit={handlePostWatchlist}/>
+            </div>
             <Table headings={headings} label='Watchlist'>
                 {livePrices.map((livePrice, index) => {
                     return (

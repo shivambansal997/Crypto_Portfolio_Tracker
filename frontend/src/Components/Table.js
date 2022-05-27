@@ -1,10 +1,13 @@
-import Base from './Base'
-
 const Table = (props) => {
     return (
-        <div className=' mt-6'>
-            <div className='mx-24'>
+        <div className='mt-6'>
+            <div className='mx-24 flex justify-between'>
                 <div className='text-2xl font-bold'>{props.label}</div>
+                {props.button &&
+                    <div className=''>
+                        {props.button()}
+                    </div>
+                }
             </div>
 
             <div className='flex flex-col bg-white mx-16 shadow-md rounded-lg mt-2 overflow-auto'>

@@ -1,4 +1,3 @@
-import {inputBoxStyle, buttonStyle, inputLabelStyle} from '../Style/Style'
 import {useContext, useState} from 'react'
 import {ModalContext} from '../Context/ModalState'
 import SignupForm from './SingupForm'
@@ -36,10 +35,10 @@ const LoginForm = () => {
 
                 <ModalHeading>Login</ModalHeading>
 
-                <InputBox lable='E-mail' placeholder='Email address' type='text' id='username'
+                <InputBox label='E-mail' placeholder='Email address' type='text' id='username'
                           onChange={handleOnChange}/>
 
-                <InputBox lable='Password' placeholder='Password' type='password' id='password'
+                <InputBox label='Password' placeholder='Password' type='password' id='password'
                           onChange={handleOnChange}/>
 
                 <SubmitButton onClick={handleSubmit}>Login</SubmitButton>

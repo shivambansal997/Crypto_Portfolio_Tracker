@@ -19,7 +19,7 @@ class TransactionSerializer(serializers.ModelSerializer):
             'quantity',
             'platform',
             'description',
-            'created_at',
+            'date',
         ]
 
     def get_crypto_name(self, obj):

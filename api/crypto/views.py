@@ -4,6 +4,7 @@ from django.http import JsonResponse, Http404
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.generics import ListAPIView
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+
 from .models import Watchlist, Crypto, Transaction, Platform, Holding
 from .serializers import WatchlistSerializer, TransactionSerializer, CryptoSerializer, HoldingSerializer
 from .utils import Pagination
@@ -25,13 +26,28 @@ class TransactionView(ListAPIView):
         quantity = request.data['quantity']
         platform = Platform.objects.get(id=request.data['platform_id'])
         description = request.data['description']
+        date = request.data['date']
         amount = float(price_usd) * float(quantity)
 
-        obj, holding = Holding.objects.get_or_create(user=user, crypto=crypto)
-        obj.quantity = F('quantity') + float(quantity)
-        obj.total_amount = F('total_amount') + amount
-        obj.avg_price = obj.total_amount / obj.quantity
-        obj.save()
+        if type == 'sell' or type == 'Sell':
+            holding = Holding.objects.get(user=user, crypto=crypto)
+            if float(holding.quantity) - float(quantity) != 0:
+                holding.avg_price = (float(holding.total_amount) - amount) / (
+                        float(holding.quantity) - float(quantity))
+                holding.total_amount = F('total_amount') - float(amount)
+                holding.quantity = F('quantity') - float(quantity)
+                holding.save()
+            else:
+                holding.total_amount = 0
+                holding.quantity = 0
+                holding.avg_price = 0
+                holding.save()
+        else:
+            obj, holding = Holding.objects.get_or_create(user=user, crypto=crypto)
+            obj.quantity = F('quantity') + float(quantity)
+            obj.total_amount = F('total_amount') + amount
+            obj.avg_price = obj.total_amount / obj.quantity
+            obj.save()
 
         Transaction.objects.create(
             user=user,
@@ -42,6 +58,7 @@ class TransactionView(ListAPIView):
             amount=amount,
             platform=platform,
             description=description,
+            date=date,
         )
 
         return JsonResponse({
@@ -51,6 +68,15 @@ class TransactionView(ListAPIView):
     def delete(self, request, *args, **kwargs):
         try:
             transaction = Transaction.objects.get(id=request.data['id'])
+            holding = Holding.objects.get(crypto_id=transaction.crypto_id, user=self.request.user)
+            if (holding.quantity - transaction.quantity) != 0:
+                holding.avg_price = (holding.total_amount - transaction.amount) / (
+                        holding.quantity - transaction.quantity)
+                holding.total_amount = F('total_amount') - float(transaction.amount)
+                holding.quantity = F('quantity') - float(transaction.quantity)
+                holding.save()
+            else:
+                holding.delete()
             if transaction.user != self.request.user:
                 raise PermissionDenied()
             transaction.delete()

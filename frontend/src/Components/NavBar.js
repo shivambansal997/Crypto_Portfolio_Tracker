@@ -91,7 +91,7 @@ const NavBar = () => {
                         {
                             isAuth ?
                                 <div className='flex'>
-                                    <div className='relative'>{first_name}</div>
+                                    <div className='relative mr-2.5 font-bold'>{first_name}</div>
                                     <div className='' onClick={logout}>Logout</div>
                                 </div>
                                 :

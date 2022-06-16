@@ -157,14 +157,3 @@ SESSION_COOKIE_SECURE = False
 CSRF_COOKIE_SECURE = False
 
 BASE_URL = 'http://localhost:8000'
-# Heroku Database
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'de3d6jkd7kcehi',
-#         'USER': 'jtlnleqwwdyfhw',
-#         'PASSWORD': '2cfb2d5c586e7fb1a766fcf855b8de43d44eecb73f2d914b48320a7fdbdaa3c4',
-#         'HOST': 'ec2-23-23-128-222.compute-1.amazonaws.com',
-#         'PORT': '5432',
-#     }
-# }

@@ -14,11 +14,9 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 
 const Transactions = () => {
     const {authUser, authUser: {isAuth}} = useContext(UserContext)
-
     const [transactions, setTransactions] = useState([])
 
     const [pageNumber, setPageNumber] = useState(1)
-
     const {setModal, setModalContent} = useContext(ModalContext)
 
     const openTransactionModal = () => {
